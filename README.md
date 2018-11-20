@@ -1,19 +1,19 @@
 # tadp_calculo-lambda
 
 
-# Teoria de calculo Lambda
+## Teoria de calculo Lambda
 
 
-# Parsers combinators
+## Parsers combinators
 
 
-# sobre el codigo
+## sobre el codigo
 
 
-# Agregando tipos y un sistemas de tipos Naive
+## Agregando tipos y un sistemas de tipos Naive
 
 
-# Haciendo que todo funcione ahora...
+## Haciendo que todo funcione ahora...
 
 
-# Inferencia de tipos (?)
+## Inferencia de tipos (?)
