@@ -708,13 +708,7 @@ La η-reduction es útil para eliminar abstracciones lambda redundantes. La sigu
 
 Si el único propósito de una abstracción lambda es pasar su argumento a otra función, entonces la abstracción lambda es redundante y puede eliminarse mediante la η-reduction.
 
-En un entorno donde se utiliza la "evaluación impaciente" como en el Esquema, tales abstracciones lambda redundantes se utilizan como un wrapper alrededor de una expresión lambda para evitar una evaluación inmediata.
-
-La η-reduction es útil para eliminar abstracciones lambda redundantes. La siguiente regla puede ser interpretada de la siguiente manera:
-
-Si el único propósito de una abstracción lambda es pasar su argumento a otra función, entonces la abstracción lambda es redundante y puede eliminarse mediante la η-reduction.
-
-En un entorno donde se utiliza la "evaluación impaciente" como en el Esquema, tales abstracciones lambda redundantes se utilizan como un wrapper alrededor de una expresión lambda para evitar una evaluación inmediata. Se resume la η-reduction de la siguiente manera
+En un entorno donde se utiliza la "evaluación eager" como en Scheme, tales abstracciones lambda redundantes se utilizan como un wrapper alrededor de una expresión lambda para evitar una evaluación inmediata. Se resume la η-reduction de la siguiente manera
 
 (λx.Mx) →η M ,
 
