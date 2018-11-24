@@ -605,9 +605,6 @@ Dado el siguiente ejemplo robado de wikipedia, y teniendo que fix = Y, por ejemp
 
 Hay mucho mas para hablar sobre calculo lambda, o mas bien sobre como expandir al calculo con varias funciones, por ahora vamos a centrarnos en solamente entender las formalidades de lo que vimos ahora y un par de reglas mas antes de pasar al proximo tema.
 
-
-
-
 Un ejemplo completo con reducciones α y β
 
 
@@ -620,6 +617,154 @@ Un ejemplo completo con reducciones α y β
 | (λz.z) (a a)                | aplicamos α-reducción (renombro z por a)                 |
 | a a                         | resultado                                                |
 |-----------------------------+----------------------------------------------------------|
+
+### Definamos Formalmente al calculo lambda
+
+A continuation vamos a definir formalmente el calculo lambda para terminar de redondear un poco la idea de esta parte
+
+- t = x / x ∈ Var
+
+- t = λx.M / x ∈ Var y N es una expresion lambda
+
+- t = (MN) / M and N son expresiones lambda
+
+Tipos de expresiones en calculo lambda
+
+- variables (referencing expresiones lambda) 
+- Abstracciones lambda (definen funciones) 
+- applicaciones (invocan funciones)
+
+
+### Notacion de Conversiones
+
+Para las conversiones
+
+M →α N La regla aplica de izquierda a derecha
+
+M ←α N La regla aplica de derecha a izquierda
+
+M ↔α N La regla de conversion aplica a ambos sentidos
+
+Para substituciones
+
+M[x→N]          x en M es sustituido por N
+
+M[x←N]          N en M es sustituido por x 
+
+M[x↔N]          x en M es sustituido por N o N en M es sustituido por x dependiendo de la direccion de la conversion
+
+### Reglas de conversiones
+
+#### Conversion alpha (α-conversion)
+
+Hasta ahora no vimos esto pero la conversion alpha nos permite cambiar el nombre de una variable ligada a una función 
+
+
+_λx.M →α λx0.M[x → x0]_  1 
+
+where x0 is not allowed to be a free variable in M. The process of alpha conversion may not alter the value of the expression. The expression to be converted (M) and the converted result (N) are said to be equal modulo alpha: M =α N.
+
+
+#### Conversion Beta (β-conversion)
+
+The following transformation is called β-conversion: 
+
+_((λx.M)N) ↔β M[x ↔ N]_
+
+
+β-Conversion primarily consists of the process of substituting a bound variable in the body of a lambda abstraction by the argument passed to the function whenever it is applied. This process is called β-reduction. 
+
+Reducible Expression ‘redex’ β-reduction can be applied only to reducible expressions. A reducible expression called ‘redex’ for short is defined as follows:
+
+_((λx.M)N)_
+
+
+El proceso inverso de convertir una expresión lambda reducida por medio de β-reduction a la expresión reducible es otro aspecto de la conversion β, llamada β-abstraction
+
+_+ 4 1 ← (λx . + x 1) 4_
+
+Por lo que esta expresión resume la abstracción alpha:
+
+_((λx.M)N) ←β M[x ← N]_
+
+Ejemplos 
+
+_((λx.x x)(λy.y)) →β ((λy.y)(λy.y)) →β (λy.y)_
+
+
+_((λx.(λy.x y))y) →β (λy’.y y’)_
+
+Observación: El segundo ejemplo demuestra la necesidad de la conversión alfa. La variable unida a lambda y tuvo que cambiarse de nombre y’, para evitar la captura de la y libre (resultante de la sustitución de x por y en el cuerpo de la primera abstracción de lambda) por la segunda lambda.
+
+
+### Conversion Eta (η-conversion)
+
+Al igual que la conversión β, la conversión η se puede realizar de izquierda a derecha y de derecha a izquierda y, por lo tanto, se subdivide en reducción de Eta y abstracción
+
+η-conversion es otro tipo de conversion que deja sin cambiar la semántica de una expresión lambda:
+
+Formalmente se define de esta manera:
+
+(λx.Mx) ↔η M ,
+
+Y un ejemplo podría ser
+
+(λx . + 1 x) ↔η (+ 1)
+
+La η-reduction es útil para eliminar abstracciones lambda redundantes. La siguiente regla puede ser interpretada de la siguiente manera:
+
+Si el único propósito de una abstracción lambda es pasar su argumento a otra función, entonces la abstracción lambda es redundante y puede eliminarse mediante la η-reduction.
+
+En un entorno donde se utiliza la "evaluación impaciente" como en el Esquema, tales abstracciones lambda redundantes se utilizan como un wrapper alrededor de una expresión lambda para evitar una evaluación inmediata.
+
+La η-reduction es útil para eliminar abstracciones lambda redundantes. La siguiente regla puede ser interpretada de la siguiente manera:
+
+Si el único propósito de una abstracción lambda es pasar su argumento a otra función, entonces la abstracción lambda es redundante y puede eliminarse mediante la η-reduction.
+
+En un entorno donde se utiliza la "evaluación impaciente" como en el Esquema, tales abstracciones lambda redundantes se utilizan como un wrapper alrededor de una expresión lambda para evitar una evaluación inmediata. Se resume la η-reduction de la siguiente manera
+
+(λx.Mx) →η M ,
+
+Donde x no seria una variable libre en M
+
+Un simple ejemplo seria
+
+(λx . F x) ↔η F
+
+La abstraction eta por otro lado es util en lenguajes eager para crear un wrapper alrededor de una expresión lambda, en lenguajes de evaluación lazy, las transformaciones eta son utilizados en el mismo compilador. La forma genérica de la abstracción eta es:
+
+_(λx.Mx) ←η M_
+
+
+## Bonus Bonus
+
+### De Bruin index
+
+La idea de De Bruijn es que se pudisen representar los términos de una manera mucho mas directa, y a veces menos intuitiva, reemplazando las variables de una función que se representan de manera nominativa por un numero al que la variable apunta directamente al contexto con el que esta bindeado o ligado.  Esto se hace reemplazando por numeros , donde el numero k significa la variable bindeada con la clausa lambda que esta a k contextos, por ej. Sobre el termino simple λx. x eso se puede representar como λ.1 mientras que λx. λy. x (y x) pertenece a λ λ 2 (1 2).
+
+A veces hay autores que prefieren partir del 0 o del 1. Los términos sin nombre se denominan a veces términos De Bruijn, y las variables numéricas indices De Bruijn. Los compiladores usan el termino “distancia estatica” para representar el mismo concepto,
+
+Un ejemplo mas gráfico.. robado de wikipedia sin vergüenza es el siguiente
+
+
+Para la expresion lambda λz. (λy. y (λx. x)) (λx. z x) la misma pasada a indices De Bruijn es λ (λ 1 (λ 1)) (λ 2 1). Veamos visualmente como es
+
+
+
+Los términos usando estos indices se escriben de la siguiente manera
+
+M, N, … ::= n | M N | λ M
+
+Donde n pertenece a los números naturales mayores a 0 y pertenecen a las variables. Una variable esta en el scope si al menos tiene n contextos bindeados (λ), de otra manera es libre. El lugar para bindear una variable n es la _n_th clausula  que esta en el contexto a partir del contexto mas interno.
+
+La operación mas primitiva en los términos lambda es la sustitución, reemplazando las variables libres con otros términos, por lo que en una reducción beta, deberíamos hacer:
+
+
+
+- Buscar las instancias de las variables n1, n2, …, nk en M que estan bindeadas por λ en λ M,
+- Decrementar las variables libres de M para matchear la bindeo externo de λ
+- Reemplazar n1, n2, …, nk con N, incrementando la cantidad de variables libre que se han encontrado en N cada vez, para matchear el numero de contextos lambda, bajo el cual la variable correspondiente ocurre cuando N sustituye por uno de los _ni_.
+
 
 
 # Calculo Lambda Tipado
