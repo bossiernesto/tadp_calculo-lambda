@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Calculo Lambda
 
 Esta clase esta un poco orientada a ver los distintos modelos de calculo lambda, al menos vamos a tratar de ver los modelos mas basicos de lenguajes que vamos a poder diseñar sin tener que implementar un compliador completo, por lo que esta clase se va a centrar en explicar sobre calculo lambda, que es en si un sistema formal en el que se pueden aplicar funciones y definir variables, en si es un pequeño lenguaje de programacion en el que vamos a poder definir funciones, aplicarlas con valores. Se usa especialmente sobre teoria de tipos ya que es el caso de un lenguaje de programacion abstracto y simple de describir, si bien fue pensado originalmente como un sistema sin tipos. 
@@ -768,4 +769,3 @@ La operación mas primitiva en los términos lambda es la sustitución, reemplaz
 
 
 # Calculo Lambda Tipado
-
