@@ -763,4 +763,132 @@ La operación mas primitiva en los términos lambda es la sustitución, reemplaz
 
 
 
-# Calculo Lambda Tipado
+## Calculo Lambda Tipado
+
+
+El chequeo de tipos simple para calculo lambda es una técnica para probar propiedades simples, y a diferencia de otras tecnicas de prueba de teoremas y pruebas basados ​​en semántica axiomática, la verificación de tipos por lo general no puede determinar que el resultado sea correcto. Por lo que  es una forma de probar si se trata de un programa bien formado que satisface
+ciertas propiedades deseables.
+Los sistemas de tipos son una técnica poderosa. Los investigadores han descubierto cómo usar el tipo
+Sistemas para una variedad de diferentes tareas de verificación. Lo que veremos brevemente es la primera impresion del sistema de tipos sobre calculo lambda.
+
+En si esta variacion tipada es relativamente simple, ya que no se introduce nada nuevo sobre la idea del calculo lambda, porque al ser un complemento de este es mas bien un chequeo de tipos y no mucho mas, ya que el calculo lambda no fue pensado para soportar tipos. Por lo que las reglas de sustitucion y como se forman los terminos no es algo que se vera afectado, como veremos mas adelante, en el codigo. 
+Para empezar, un termino lambda es considerado bien si un tipo puede ser derivado de el usando reglas, y le dareos semanticas operaciones y denotacionales para este lenguaje.
+
+Para empezar vamos a definir los tipos primitivos, que no se relacionan en principio con los terminos de las expresiones lambda.
+
+<a href="#">
+ <img src="https://raw.githubusercontent.com/bossiernesto/tadp_calculo-lambda/master/images/lambda_typed_0.png" alt="">
+</a>
+
+
+Vemos que los tipos y las construcciones de las expresiones lambda no se relaciona, sino que el sistema de tipos sera el que tenga la tarea de correlacionar estos dos modelos, por un lado el modelo de los tipos de datos y por el otro el del modelo del lenguaje intermedio que modela las expresiones del calculo lambda. Laotra diferencia es que la abstraccion lambda explicita menciona el tipo de sus argumentos.
+Un valor puede ser un numero, un booleano, nulo o una abstraccion cerrada λx : τ. e. El conjunto de valores esta denotado por Val. El conjuntos de tipos esta denotado por Type.
+Hay un conjunto de reglas de tipado, donde se pueden asociar un tipo con una estructura. Si un tipo τ puede ser derivado para un termino/estructura e de acuerdo a las reglas de tipado, lo deberiamos escribir como  
+
+_e : τ_
+
+Esto es lo que de conoce como un juicio de tipo (type judgement)
+
+Por ejemplo, cada numero tiene un tipo int, por lo que 3: int. El tipo nulo es unico y ninguno mas posee su tipo. La funcion 
+
+_TRUE int = λx : int. λy : int. x_  tiene la firma int → (int → int)
+
+El constructor asocia a la dierecha por lo que _int → (int → int)_ is the same as _int → int → int_
+
+Por lo que se puede llegar a la conclusion de:
+
+<a href="#">
+ <img src="https://raw.githubusercontent.com/bossiernesto/tadp_calculo-lambda/master/images/typed_a.png" alt="">
+</a>
+
+No todos los terminos lambda pueden ser considerados validos por el sistema de tipo, por ej
+
+_(λx : int. x x) and (true 3)_
+
+Este caso es un caso de un codigo mal formado, y es considerado invalido. Por ahora no nos vamos a detener como hacer la coercion de tipos sobre funciones mas compejas, sino a explicar el tipado simple.
+
+
+### Relgas de tipado
+
+Las reglas de tipado determinaran si los terminos que se ingresan son programas lambdas validos. Son un conjunto de reglas que permiten la derivacion de juicio de tipos, de la forma 
+
+Γ ` e : τ
+
+Γ es nuestro entorno de tipos, que la forma mas simple es un mapa con las variables nominales o ids que estan asociadas a los tipos, y que se usan para determinar los tipos de variables libres en e. El dominio de Γ es una funcion parcion Var * Type es denotado como dom(Γ).
+
+El se obtiene el entorno Γ[x 7→ τ ], rebindeando la variable x a τ (o creando un nuevo binding si x 6∈ dom(Γ)):
+
+<a href="#">
+ <img src="https://raw.githubusercontent.com/bossiernesto/tadp_calculo-lambda/master/images/typed_2.png" alt="">
+</a>
+
+La notacion Γ, x : τ es sinonimo con Γ[x 7→ τ ], donde el primero es la notacion que se ve en gral en bibliografia. Tambien se ve a veces la notacion x : τ ∈ Γ que significa Γ(x) = τ
+
+Tambien escribimos Γ ' e : τ para expesar que el juicio de tipo es derivado de las reglas de tipado definidas. El entorno ø es el entorno vacio, y el juicio ' e : τ es en realidad ø ' e : τ
+
+Las reglas de tipo son:
+
+<a href="#">
+ <img src="https://raw.githubusercontent.com/bossiernesto/tadp_calculo-lambda/master/images/typed_1.png" alt="">
+</a>
+
+Vamos a explicar brevemente cada una de las reglas de tipado
+
+* Las primeras cuatro reglas son para definir que los valores bases poseen sus propios tipos bases
+* Para una variable _x_, Γ ` x : τ explicita que el binding  x : τ aparece en el entorno Γ, por lo que se fija lo siguiente: Γ(x) = τ
+* Una aplicacion e0 e1 representa el resultado de aplicar la funcion representado por e0 al argumento representado por e1, por lo que para τ0, e0 debe ser una funcion del tipo  τ → τ0 para un τ0, y su argumento e1 debe ser del tipo τ. Esto es capturado por esta regla.
+* Finalmente una abstraccion λx : τ. e, representa una funcion. El tipo de entrada (argumento) que debe matchear con la anotacion del termino, por lo que el tipo de la funcion debe ser τ → τ0 para un τ0. El tipo τ0 del resultado es el tipo de cuerpo y que posee la suposicion extra del tipo x: τ.
+
+
+Cada termino bien tipado tiene un arbol de prueba que consiste en las aplicaciones del tipo de reglas de derivacion de un tipo para la expresion. Podemos chequear el tipo de un termino construyendo su arbol de prueba. Por ejemplo, veamos esta expresion lambda
+
+_(λx : int. λy : bool. x) 2 true_
+
+que evalua finalmente a 2. Desde que 2: Int esperamos que se cumpla
+
+_((λx : int. λy : bool. x) 2 true) : int_
+
+Veamos un poco como se puede probar esto
+
+<a href="#">
+ <img src="https://raw.githubusercontent.com/bossiernesto/tadp_calculo-lambda/master/images/typed_3.png" alt="">
+</a>
+
+Un chequeador de tipos automatico puede construir arboles de pruebas como este para testear si el programa esta bien tipado o no. Una razon importante para esto sea posible es que las reglas son orientadas a la sintaxis, por lo que hay solo una regla de tipos que aplica a una forma dada de e. Por lo que no hay que realizar busquedas para construir un arbol de prueba. 
+Para este sistema de tipos, los tipos, si existen son unicos. Por lo que si 
+
+_Γ ` e : τ_
+
+y 
+
+
+_Γ ` e : τ0_
+
+
+entonces
+
+_τ = τ0_
+
+Esto puede ser probado simple por medio de induccion estructural
+
+### Limitaciones sobre recursividad
+
+Hay un gran problema con el tipado simple y es que perdemos la expresividad del calculo lambda, sobre funciones que se componen arbitrariamente, ya que pueden tener tipos que no necesariamente se matcheen. Lo mas importante es que perdemos la capacidad de escribir loops o funciones recursivas como vimos antes con la funcion omega:
+
+_Omega = ( λ x . x x ) ( λ x . x x )_
+
+Veamos que no podemos ahora hacer tipar algo como _λx : σ. xx_
+
+<a href="#">
+ <img src="https://raw.githubusercontent.com/bossiernesto/tadp_calculo-lambda/master/images/typed_4.png" alt="">
+</a>
+
+Podemos ver que tenemos que cumplir tanto con 
+
+Γ, x : σ ` x : σ → τ
+
+Γ, x : σ ` x : σ
+
+Sin embargo, desde que los tipos son unicos, esto es imposible, por lo que no podemos tener σ = σ → τ, y tampoco podemos hacer que una expresion de un tipo pueda ser una subexpresion de el mismo, entonces tenemos que llegar a la conclusion de que no se puede tipar.
+Esto es una gran limitante del sistema simple de tipado, pero hay otros tipados mas avanzados, llamados de segundo orden que restauran la posibilidad de tener funciones recursivas y loops.
+
