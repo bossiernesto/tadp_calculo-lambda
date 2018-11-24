@@ -1,0 +1,3 @@
+[submodule "arithmetical"]
+	path = arithmetical
+	url = git@github.com:tcdl-univ/tapl-arithmetical.git
