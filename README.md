@@ -140,7 +140,7 @@ Una gramática libre de contexto se la define como: <img src="https://lh6.google
 
 Mediante estas gramáticas los analizadores sintácticos arman derivaciones que generan justamente estructuras intermedias siendo la más inmediata y simple, los AST.
 
-###Derivaciones
+### Derivaciones
 
 Imaginemos el caso en el que tenemos una gramática como la siguiente
 
@@ -158,7 +158,7 @@ En este caso que mostramos muestra una derivación a izquierda aunque podríamos
 - Derivación a izquierda: en cada paso de la derivación se reemplaza el noterminal que se encuentra primero, de izquierda a derecha, en la cadena de derivación.
 - Derivación a derecha: en cada paso de la derivación se reemplaza el noterminal que se encuentra primero, de derecha a izquierda, en la cadena de derivación.
 
-##Recursividad en gramáticas
+## Recursividad en gramáticas
 
 Veamos un caso clásico que sucede a veces al crear una gramática para un lenguaje:
 
@@ -283,13 +283,13 @@ Luego de esto explicamos que existen casos en el que no podemos parsear un progr
 
 ## Sobre los parsers
 
-##Parsers
+## Parsers
 
 Es un analizador sintáctico que permite reconocer un lenguaje libre de contexto, descripta mediante una gramática de este tipo y genera un árbol de derivación o AST.  Veremos como primer parser los parsers LL que son el ejemplo de parser más básicos y luego veremos ejemplos con parser combinators en Scala. Un tema a destacar es que los parsers realizan un análisis sintáxtico sobre nuestros tokens generados en el Lexer o tokenizador, y que ante una sintaxis incorrecta el parser puede generar un error y para el proceso de compilación hasta que se arregle la entrada correctamente y se vuelva a ejecutar el proceso nuevamente por parte del usuario.
 
 Bien hay muchos tipos de parsers, por un tema de tiempo dejaremos el resto menos uno de lado...
 
-##Parser Combinators
+## Parser Combinators
 
 Ahora ya sabemos sobre parsers, regex y gramáticas, lo que nos interesa es como escribir parsers en scala, por suerte en scala tenemos construcciones mucho más avanzadas que un parser de LL(1) que nos permitirá escribir parsers definiendo nuestras reglas gramaticales y lo que generará estas reglas. La construcción que utilizaremos en scala es algo llamado parser generators.
 
@@ -307,7 +307,7 @@ Hay operaciones que podremos hacer con nuestros combinators cuando definamos las
 - rep quiere decir que espera N- repeticiones del parser X donde X es el parser pasado como un argumento a rep.
 
 
-## Sobre el calculo lambda:
+## *Sobre el calculo lambda*
 
 Es un lenguaje pequeño en el que se pueden representar todas las funciones computables, entonces es fácil extender y probar propiedades.
 En particular, tiene la siguiente sintaxis:
@@ -334,9 +334,7 @@ La sintaxis de l calculo lambda es la siguiente
 * **λx.t abstraccion**
 * **t.t applicacion**
 
-# calculo Lambda sin tipos
-
-
+## calculo Lambda sin tipos
 
 Finalmente pasamos a ver el modelo del calculo lambda sin tipos que en si solo vamos a poder definir una de los tres terminos para cualquier programa valido. Algo bastante interesante es que la transformación a la sintaxis abstracta se hace en dos pasos distintos, por un lado el lexer va a definir nuestros tokens que van a formar parte de los miembros del árbol abstracto que hace luego el parser en la ultima parte.
 
@@ -483,8 +481,6 @@ La mayoría de los lenguajes de programación (incluidos Lisp, ML y lenguajes im
 
 #### Multiples argumentos
 
-
-
 Si bien no hay suporte de multiples argumentos para el calculo lambda, es algo que se puede lograr sin muchos problemas tratando de utilizar funciones de orden superior que yieldean funciones como resultados, para que quede mas claro, dado un _s_ que es un termino en el que involucra a dos variables libres _x_, _y_; y queremos escribir una función _f_ que para cada par _(v, w)_ de argumentos, bielden el resultado de substituir _v_ for _x_ y _w_ por _y_ en _s_. Por lo que en vez de escribir algo como _f = λ(x, y). s_ como lo haríamos en un lenguaje de programacion mas serio (?), lo escribiremos _f = λx.λy. s_. Por lo que estas variables se reducirán a la siguiente manera _((λy. [x -> v]s)w)_ y a _[y ->w][x->v]s_. Esta transformación de funciones de “multiples argumentos” a funciones de orden superior es llamado currying.
 
 #### Booleanos de Church
@@ -504,8 +500,6 @@ _or = λp.λq.p p q_
 _not = λp.p fls tru_
 
 _ifthenelse = λc.λt.λe.c t e_
-
-
 
 
 - test = λl. λm. λn. l m n
@@ -607,16 +601,15 @@ Hay mucho mas para hablar sobre calculo lambda, o mas bien sobre como expandir a
 
 Un ejemplo completo con reducciones α y β
 
+_(λz.z) ((λy.y y) (λx.x a))_            aplicamos β-reducción (donde y, reemplazo con (λx.x a)) 
 
-|-----------------------------+----------------------------------------------------------|
-|            Expresión        |                        Comentarios                       |
-|-----------------------------|:---------------------------------------------------------|
-| (λz.z) ((λy.y y) (λx.x a))  | aplicamos β-reducción (donde y, reemplazo con (λx.x a))  |
-| (λz.z) ((λx.x a) (λx.x a))  | aplicamos β-reducción (donde x, reemplazo con (λx.x a))  |
-| (λz.z) ((λx.x a) a)	      |  aplicamos β-reducción (donde x, reemplazo con a)        |
-| (λz.z) (a a)                | aplicamos α-reducción (renombro z por a)                 |
-| a a                         | resultado                                                |
-|-----------------------------+----------------------------------------------------------|
+_(λz.z) ((λx.x a) (λx.x a))_            aplicamos β-reducción (donde x, reemplazo con (λx.x a))
+
+_(λz.z) ((λx.x a) a)_                   aplicamos β-reducción (donde x, reemplazo con a)
+
+_(λz.z) (a a)_                          aplicamos α-reducción (renombro z por a)
+
+_a a_                                   resultado
 
 ### Definamos Formalmente al calculo lambda
 
