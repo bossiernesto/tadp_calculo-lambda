@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Calculo Lambda
 
 Esta clase esta un poco orientada a ver los distintos modelos de calculo lambda, al menos vamos a tratar de ver los modelos mas basicos de lenguajes que vamos a poder diseñar sin tener que implementar un compliador completo, por lo que esta clase se va a centrar en explicar sobre calculo lambda, que es en si un sistema formal en el que se pueden aplicar funciones y definir variables, en si es un pequeño lenguaje de programacion en el que vamos a poder definir funciones, aplicarlas con valores. Se usa especialmente sobre teoria de tipos ya que es el caso de un lenguaje de programacion abstracto y simple de describir, si bien fue pensado originalmente como un sistema sin tipos. 
@@ -31,7 +30,7 @@ Aquí se puede ver que cada uno de los nodos del árbol representa un miembro de
 Volviendo al proceso que veremos hoy, el pipeline o pasos que veremos de la compilación son los siguientes:
 
 <a href="#">
-    <img src="{{ site.baseurl }}/media/2015-02-28-cuarto.taller.lenguajes15/java_parsing.png" alt="">
+    <img src="https://raw.githubusercontent.com/thin-languages/thin-languages.github.io/master/media/2015-02-28-cuarto.taller.lenguajes15/java_parsing.png" alt="">
 </a>
 
 Solo veremos el lector, y este lector empieza por algo llamado tokenizer, que es esta fase?
@@ -74,7 +73,7 @@ Existen distintos tipos de gramáticas, las que nos importan en nuestro ámbito 
 La diferencia es que cada uno tiene reglas más particulares y restringidas, por lo que cada una genera lenguajes formales menos generales. Los más importantes y que veremos son las gramáticas libres de contexto (Tipo 2) y las regulares (Tipo 3). Estas son mucho menos generales que las gramáticas no restringidas de Tipo 0, que son solo reconocidas y que pueden procesarse mediante una máquina de turing.
 
 <a href="#">
-    <img src="{{ site.baseurl }}/media/2015-03-07-quinto.taller.lenguajes15/250px-Chomsky-hierarchy.svg.png" alt="">
+    <img src="https://raw.githubusercontent.com/bossiernesto/tadp_calculo-lambda/master/images/250px-Chomsky-hierarchy.svg.png" alt="">
 </a>
 
 Las gramáticas que veremos en este encuentro se basan en las de tipo 2 y 3, las libres de contexto y regulares. Las gramáticas regulares nos permiten describir lenguajes regulares y las mismas podemos verlas expresadas en expresiones regulares para búsqueda de patrones en un texto a buscar este patrón, lo que nos permite hacer este tipo de expresiones la búsqueda tanto de construcciones regulares finitas como infinitas
@@ -238,25 +237,25 @@ Si bien no se menciono en clase, existen gramáticas que son ambiguas y cual ser
 En este caso si tenemos una gramática que nos permite modelar una estructura clásica como if/else de este estilo:
 
 <a href="#">
-    <img src="{{ site.baseurl }}/media/2015-03-07-quinto.taller.lenguajes15/amb1.png" alt="">
+    <img src="https://raw.githubusercontent.com/bossiernesto/tadp_calculo-lambda/master/images/amb1.png" alt="">
 </a>
 
 Vemos que nuestro if puede ser un if Expr then Stmt siempre y el bloque else sería opcional. Ahora imaginemos que tenemos un caso en el que tenemos un if anidado en el bloque then de otro if:
 
 <a href="#">
-    <img src="{{ site.baseurl }}/media/2015-03-07-quinto.taller.lenguajes15/amb2.png" alt="">
+    <img src="https://raw.githubusercontent.com/bossiernesto/tadp_calculo-lambda/master/images/amb2.png" alt="">
 </a>
 
 En este caso nuestro parser no sabrá a que contexto pertenece nuestro bloque else cuando lo parseemos con un top-down parser, y se podrían generar dos resultados distintos de AST, uno en el que el bloque else pertenece al segundo if anidado, que sería nuestro escenario deseado:
 
 <a href="#">
-    <img src="{{ site.baseurl }}/media/2015-03-07-quinto.taller.lenguajes15/amb3.png" alt="">
+    <img src="https://raw.githubusercontent.com/bossiernesto/tadp_calculo-lambda/master/images/amb3.png" alt="">
 </a>
 
 Y otro resultado en el que el bloque else pertenece al primer if
 
 <a href="#">
- <img src="{{ site.baseurl }}/media/2015-03-07-quinto.taller.lenguajes15/amb4.png" alt="">
+ <img src="https://raw.githubusercontent.com/bossiernesto/tadp_calculo-lambda/master/images/amb4.png" alt="">
 </a>
 
 En este caso se dice que la gramática es ambigua ya que una vez armado uno de los dos AST no sabremos si el resultado que generamos era el deseado o no.
@@ -264,7 +263,7 @@ En este caso se dice que la gramática es ambigua ya que una vez armado uno de l
 Para eliminar la ambigüedad en este ejemplo, basta con reescribir nuestra gramática de una manera que podamos distinguir cuando tenemos una gramática del tipo if/then o if/then/else. Entonces nuestra gramática podría quedar como:
 
 <a href="#">
- <img src="{{ site.baseurl }}/media/2015-03-07-quinto.taller.lenguajes15/ifelseunamb.png" alt="">
+ <img src="https://raw.githubusercontent.com/bossiernesto/tadp_calculo-lambda/master/images/ifelseunamb.png" alt="">
 </a>
 
 
@@ -750,6 +749,9 @@ Un ejemplo mas gráfico.. robado de wikipedia sin vergüenza es el siguiente
 
 Para la expresion lambda λz. (λy. y (λx. x)) (λx. z x) la misma pasada a indices De Bruijn es λ (λ 1 (λ 1)) (λ 2 1). Veamos visualmente como es
 
+<a href="#">
+ <img src="https://raw.githubusercontent.com/bossiernesto/tadp_calculo-lambda/master/images/DeBruijn.png" alt="">
+</a>
 
 
 Los términos usando estos indices se escriben de la siguiente manera
