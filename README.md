@@ -495,9 +495,27 @@ Luego con estos dos terminos lambda, podemos definir el resto de los operadores 
 
 _and = λp.λq.p q p_
 
+alternativa para describir al and en calculo λ:
+
+_and = λp.λq.p q fls_
+
+(Mostrar que ambas implementaciones funcionan bien...)
+
 _or = λp.λq.p p q_
 
+alternativa para describir la operacion _or_:
+
+_or = λp.λq.p tru q_
+
+(Mostrar que ambas implementaciones funcionan bien...)
+
 _not = λp.p fls tru_
+
+_xor = λp.λq.p (not q) q_
+
+(Demostrar not y xor...)
+
+Ahora veamos algunas operaciones adicionales como el if/then/else:
 
 _ifthenelse = λc.λt.λe.c t e_
 
@@ -545,7 +563,7 @@ _Omega = ( λ x . x x ) ( λ x . x x )_
 
 Contiene un solo redex, y reduciendo este resulta en la misma expresión inicial, a estos términos que se escapan y que carecen de  forma normal, se dicen que divergen. A este combinador omega, tiene una generalización llamada combinador de punto fijo, que puede ser usado para definir funciones recursivas como el factorial
 
-_fix ≡ λf . (λx . f (λy x x y)) (λx . f (λy x x y) _
+_fix ≡ λf . (λx . f (λy x x y)) (λx . f (λy x x y)_
 
 *Nota, a veces se lo muestra el combinado de punto fijo de la siguiente manera:*
 
