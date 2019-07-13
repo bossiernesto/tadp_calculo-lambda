@@ -63,7 +63,7 @@ Vemos que cuando el analizador léxico lea la entrada no detectará a la palabra
 
 Estas transformaciones se pueden probar antes de ignorar estas entradas inválidas.
 
-##Gramáticas
+## Gramáticas
 
 Ahora el parser y el lexer usan una tabla de símbolos y el primero usa también reglas sintácticas para validar la entrada y generar una IR. Como se definen estas construcciones??
 
@@ -87,7 +87,7 @@ Podemos definir a cualquier gramática formalmente como una 4-tupla (Vn, Vt, P, 
 
 Cuando decimos que una gramática formal genera un lenguaje formal, significa que puede generar todas las palabras del Lenguaje Formal, pero no genera a aquellos que están fuera de las restricciones de este. De esta manera una gramática libre del contexto puede usarse para describir un lenguaje regular aunque una gramática regular no puede usarse para describir un lenguaje libre de contexto ya que la gramática regular posee mayores restricciones.
 
-##Definiciones y alcances formales de gramáticas regulares y libres de contexto.
+## Definiciones y alcances formales de gramáticas regulares y libres de contexto.
 
 Una gramática regular derecha es aquella cuyas reglas de producción P son de la siguiente forma:
 
